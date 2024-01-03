@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.19;
+pragma solidity ^0.8.23;
 
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Capped.sol";
@@ -31,15 +31,14 @@ contract Token is ERC20Capped, ERC20Burnable {
         _update(address(0), owner, amount);
     }
 
-    //burn tokens
-    function burn(uint256 amount) public onlyOwner {
-        _update(owner, address(0), amount);
-    }
+    function mintTo(address account, uint256 value) public {
+        // Check if the specified account is a valid address
+        if (account == address(0)) {
+            revert ERC20InvalidReceiver(address(0));
+        }
 
-    //transfer tokens
-    function transfer(address to, uint256 amount) public onlyOwner returns (bool){
-        _update(owner, to, amount);
-        return true;
+        // Call the _update function to mint tokens to the specified account
+        _update(address(0), account, value);
     }
 
     //check balance
@@ -52,11 +51,6 @@ contract Token is ERC20Capped, ERC20Burnable {
         return super.totalSupply();
     }
 
-    //check allowance
-
-
-
-    // Internal function to update token balances and handle capped supply
     function _update(
         address from,
         address to,

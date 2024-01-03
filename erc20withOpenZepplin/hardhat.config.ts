@@ -1,10 +1,11 @@
 require("@nomicfoundation/hardhat-toolbox");
 require("dotenv").config()
 
+/** @type import('hardhat/config').HardhatUserConfig */
 module.exports = {
-  solidity: "0.8.20",
+  solidity: "0.8.23",
   networks: {
-    goerli: {
+    sepolia: {
       url: process.env.SEPOLIA_URL,
       accounts: [process.env.ACCOUNT]
     },
